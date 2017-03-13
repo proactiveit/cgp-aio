@@ -17,7 +17,7 @@ sed -i -e '/^pf_/d;/^gateway_enable/d' /etc/rc.conf
 cat >>/etc/rc.conf <<EOT
 pf_enable="YES"
 pf_rules="/usr/local/etc/pf.conf"
-gateway_enable="YES"
+#gateway_enable="YES"
 EOT
 cp $DIR/pf.conf /usr/local/etc
 sysctl net.inet.ip.forwarding=1
