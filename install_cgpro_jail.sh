@@ -2,11 +2,11 @@
 
 PKG_FILE="/var/tmp/GatePro-FreeBSD10-AMD64.txz"
 JAIL_DIR=/mnt/vol1/jails/communigate
-STARTUP=/mnt/vol1/files/startup.sh
+STARTUP=/mnt/vol1/.scripts/startup.sh
 DIR=`dirname $STARTUP`
 
 [ -f $PKG_FILE ] || curl http://www.communigate.com/pub/CommuniGatePro/CGatePro-FreeBSD10-AMD64.txz >$PKG_FILE
-[ -d $DIR ] || { echo Dataset $DIR does not exist; exit 1; }
+[ -d $DIR ] || mkdir -p $DIR
 [ -d $JAIL_DIR/var/tmp ] || { echo Jail $JAIL_DIR does not exist; exit 1; }
 [ -f $JAIL_DIR/$PKG_FILE ] || cp $PKG_FILE $JAIL_DIR/$PKG_FILE
 pkg -c $JAIL_DIR info | grep -qi communigate || pkg -c $JAIL_DIR add $PKG_FILE
@@ -21,7 +21,6 @@ pf_rules="/usr/local/etc/pf.conf"
 EOT
 cp $DIR/pf.conf /usr/local/etc
 sysctl net.inet.ip.forwarding=1
-echo vmx0 >/mnt/vol1/jails/.communigate.meta/iface
 service pf start
 EOF
 chmod 700 $STARTUP
